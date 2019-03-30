@@ -1,0 +1,280 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="QuanLyKiTucXaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="MANHINH">
+          <Key>
+            <PropertyRef Name="MAMANHINH" />
+          </Key>
+          <Property Name="MAMANHINH" Type="int" Nullable="false" />
+          <Property Name="TENMANHINH" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NGUOIDUNG">
+          <Key>
+            <PropertyRef Name="TENDANGNHAP" />
+          </Key>
+          <Property Name="TENDANGNHAP" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TENND" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="MATKHAU" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TRANGTHAIND" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NGUOIDUNG_NHOMNGUOIDUNG">
+          <Key>
+            <PropertyRef Name="MANHOM" />
+            <PropertyRef Name="TENDANGNHAP" />
+          </Key>
+          <Property Name="MANHOM" Type="int" Nullable="false" />
+          <Property Name="TENDANGNHAP" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NHOMNGUOIDUNG">
+          <Key>
+            <PropertyRef Name="MANHOM" />
+          </Key>
+          <Property Name="MANHOM" Type="int" Nullable="false" />
+          <Property Name="TENNHOM" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PHANQUYEN">
+          <Key>
+            <PropertyRef Name="MANHOM" />
+            <PropertyRef Name="MAMANHINH" />
+          </Key>
+          <Property Name="MANHOM" Type="int" Nullable="false" />
+          <Property Name="MAMANHINH" Type="int" Nullable="false" />
+          <Property Name="COQUYEN" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_NGUOIDUNG_NHOMNGUOIDUNG_NGUOIDUNG">
+          <End Role="NGUOIDUNG" Type="Self.NGUOIDUNG" Multiplicity="1" />
+          <End Role="NGUOIDUNG_NHOMNGUOIDUNG" Type="Self.NGUOIDUNG_NHOMNGUOIDUNG" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NGUOIDUNG">
+              <PropertyRef Name="TENDANGNHAP" />
+            </Principal>
+            <Dependent Role="NGUOIDUNG_NHOMNGUOIDUNG">
+              <PropertyRef Name="TENDANGNHAP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NGUOIDUNG_NHOMNGUOIDUNG_NHOMNGUOIDUNG">
+          <End Role="NHOMNGUOIDUNG" Type="Self.NHOMNGUOIDUNG" Multiplicity="1" />
+          <End Role="NGUOIDUNG_NHOMNGUOIDUNG" Type="Self.NGUOIDUNG_NHOMNGUOIDUNG" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NHOMNGUOIDUNG">
+              <PropertyRef Name="MANHOM" />
+            </Principal>
+            <Dependent Role="NGUOIDUNG_NHOMNGUOIDUNG">
+              <PropertyRef Name="MANHOM" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PHANQUYEN_MANHINH">
+          <End Role="MANHINH" Type="Self.MANHINH" Multiplicity="1" />
+          <End Role="PHANQUYEN" Type="Self.PHANQUYEN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MANHINH">
+              <PropertyRef Name="MAMANHINH" />
+            </Principal>
+            <Dependent Role="PHANQUYEN">
+              <PropertyRef Name="MAMANHINH" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PHANQUYEN_NHOMNGUOIDUNG">
+          <End Role="NHOMNGUOIDUNG" Type="Self.NHOMNGUOIDUNG" Multiplicity="1" />
+          <End Role="PHANQUYEN" Type="Self.PHANQUYEN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NHOMNGUOIDUNG">
+              <PropertyRef Name="MANHOM" />
+            </Principal>
+            <Dependent Role="PHANQUYEN">
+              <PropertyRef Name="MANHOM" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="QuanLyKiTucXaModelStoreContainer">
+          <EntitySet Name="MANHINH" EntityType="Self.MANHINH" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NGUOIDUNG" EntityType="Self.NGUOIDUNG" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NGUOIDUNG_NHOMNGUOIDUNG" EntityType="Self.NGUOIDUNG_NHOMNGUOIDUNG" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NHOMNGUOIDUNG" EntityType="Self.NHOMNGUOIDUNG" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PHANQUYEN" EntityType="Self.PHANQUYEN" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_NGUOIDUNG_NHOMNGUOIDUNG_NGUOIDUNG" Association="Self.FK_NGUOIDUNG_NHOMNGUOIDUNG_NGUOIDUNG">
+            <End Role="NGUOIDUNG" EntitySet="NGUOIDUNG" />
+            <End Role="NGUOIDUNG_NHOMNGUOIDUNG" EntitySet="NGUOIDUNG_NHOMNGUOIDUNG" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NGUOIDUNG_NHOMNGUOIDUNG_NHOMNGUOIDUNG" Association="Self.FK_NGUOIDUNG_NHOMNGUOIDUNG_NHOMNGUOIDUNG">
+            <End Role="NHOMNGUOIDUNG" EntitySet="NHOMNGUOIDUNG" />
+            <End Role="NGUOIDUNG_NHOMNGUOIDUNG" EntitySet="NGUOIDUNG_NHOMNGUOIDUNG" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PHANQUYEN_MANHINH" Association="Self.FK_PHANQUYEN_MANHINH">
+            <End Role="MANHINH" EntitySet="MANHINH" />
+            <End Role="PHANQUYEN" EntitySet="PHANQUYEN" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PHANQUYEN_NHOMNGUOIDUNG" Association="Self.FK_PHANQUYEN_NHOMNGUOIDUNG">
+            <End Role="NHOMNGUOIDUNG" EntitySet="NHOMNGUOIDUNG" />
+            <End Role="PHANQUYEN" EntitySet="PHANQUYEN" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="QuanLyKiTucXaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="MANHINH">
+          <Key>
+            <PropertyRef Name="MAMANHINH" />
+          </Key>
+          <Property Name="MAMANHINH" Type="Int32" Nullable="false" />
+          <Property Name="TENMANHINH" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="PHANQUYENs" Relationship="Self.FK_PHANQUYEN_MANHINH" FromRole="MANHINH" ToRole="PHANQUYEN" />
+        </EntityType>
+        <EntityType Name="NGUOIDUNG">
+          <Key>
+            <PropertyRef Name="TENDANGNHAP" />
+          </Key>
+          <Property Name="TENDANGNHAP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TENND" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MATKHAU" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TRANGTHAIND" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="NHOMNGUOIDUNGs" Relationship="Self.NGUOIDUNG_NHOMNGUOIDUNG" FromRole="NGUOIDUNG" ToRole="NHOMNGUOIDUNG" />
+        </EntityType>
+        <EntityType Name="NHOMNGUOIDUNG">
+          <Key>
+            <PropertyRef Name="MANHOM" />
+          </Key>
+          <Property Name="MANHOM" Type="Int32" Nullable="false" />
+          <Property Name="TENNHOM" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="PHANQUYENs" Relationship="Self.FK_PHANQUYEN_NHOMNGUOIDUNG" FromRole="NHOMNGUOIDUNG" ToRole="PHANQUYEN" />
+          <NavigationProperty Name="NGUOIDUNGs" Relationship="Self.NGUOIDUNG_NHOMNGUOIDUNG" FromRole="NHOMNGUOIDUNG" ToRole="NGUOIDUNG" />
+        </EntityType>
+        <EntityType Name="PHANQUYEN">
+          <Key>
+            <PropertyRef Name="MANHOM" />
+            <PropertyRef Name="MAMANHINH" />
+          </Key>
+          <Property Name="MANHOM" Type="Int32" Nullable="false" />
+          <Property Name="MAMANHINH" Type="Int32" Nullable="false" />
+          <Property Name="COQUYEN" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="MANHINH" Relationship="Self.FK_PHANQUYEN_MANHINH" FromRole="PHANQUYEN" ToRole="MANHINH" />
+          <NavigationProperty Name="NHOMNGUOIDUNG" Relationship="Self.FK_PHANQUYEN_NHOMNGUOIDUNG" FromRole="PHANQUYEN" ToRole="NHOMNGUOIDUNG" />
+        </EntityType>
+        <Association Name="FK_PHANQUYEN_MANHINH">
+          <End Role="MANHINH" Type="Self.MANHINH" Multiplicity="1" />
+          <End Role="PHANQUYEN" Type="Self.PHANQUYEN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MANHINH">
+              <PropertyRef Name="MAMANHINH" />
+            </Principal>
+            <Dependent Role="PHANQUYEN">
+              <PropertyRef Name="MAMANHINH" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PHANQUYEN_NHOMNGUOIDUNG">
+          <End Role="NHOMNGUOIDUNG" Type="Self.NHOMNGUOIDUNG" Multiplicity="1" />
+          <End Role="PHANQUYEN" Type="Self.PHANQUYEN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NHOMNGUOIDUNG">
+              <PropertyRef Name="MANHOM" />
+            </Principal>
+            <Dependent Role="PHANQUYEN">
+              <PropertyRef Name="MANHOM" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="NGUOIDUNG_NHOMNGUOIDUNG">
+          <End Role="NGUOIDUNG" Type="Self.NGUOIDUNG" Multiplicity="*" />
+          <End Role="NHOMNGUOIDUNG" Type="Self.NHOMNGUOIDUNG" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="QuanLyKiTucXaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="MANHINHs" EntityType="Self.MANHINH" />
+          <EntitySet Name="NGUOIDUNGs" EntityType="Self.NGUOIDUNG" />
+          <EntitySet Name="NHOMNGUOIDUNGs" EntityType="Self.NHOMNGUOIDUNG" />
+          <EntitySet Name="PHANQUYENs" EntityType="Self.PHANQUYEN" />
+          <AssociationSet Name="FK_PHANQUYEN_MANHINH" Association="Self.FK_PHANQUYEN_MANHINH">
+            <End Role="MANHINH" EntitySet="MANHINHs" />
+            <End Role="PHANQUYEN" EntitySet="PHANQUYENs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PHANQUYEN_NHOMNGUOIDUNG" Association="Self.FK_PHANQUYEN_NHOMNGUOIDUNG">
+            <End Role="NHOMNGUOIDUNG" EntitySet="NHOMNGUOIDUNGs" />
+            <End Role="PHANQUYEN" EntitySet="PHANQUYENs" />
+          </AssociationSet>
+          <AssociationSet Name="NGUOIDUNG_NHOMNGUOIDUNG" Association="Self.NGUOIDUNG_NHOMNGUOIDUNG">
+            <End Role="NGUOIDUNG" EntitySet="NGUOIDUNGs" />
+            <End Role="NHOMNGUOIDUNG" EntitySet="NHOMNGUOIDUNGs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="QuanLyKiTucXaModelStoreContainer" CdmEntityContainer="QuanLyKiTucXaEntities">
+          <EntitySetMapping Name="MANHINHs">
+            <EntityTypeMapping TypeName="QuanLyKiTucXaModel.MANHINH">
+              <MappingFragment StoreEntitySet="MANHINH">
+                <ScalarProperty Name="MAMANHINH" ColumnName="MAMANHINH" />
+                <ScalarProperty Name="TENMANHINH" ColumnName="TENMANHINH" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NGUOIDUNGs">
+            <EntityTypeMapping TypeName="QuanLyKiTucXaModel.NGUOIDUNG">
+              <MappingFragment StoreEntitySet="NGUOIDUNG">
+                <ScalarProperty Name="TENDANGNHAP" ColumnName="TENDANGNHAP" />
+                <ScalarProperty Name="TENND" ColumnName="TENND" />
+                <ScalarProperty Name="MATKHAU" ColumnName="MATKHAU" />
+                <ScalarProperty Name="TRANGTHAIND" ColumnName="TRANGTHAIND" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NHOMNGUOIDUNGs">
+            <EntityTypeMapping TypeName="QuanLyKiTucXaModel.NHOMNGUOIDUNG">
+              <MappingFragment StoreEntitySet="NHOMNGUOIDUNG">
+                <ScalarProperty Name="MANHOM" ColumnName="MANHOM" />
+                <ScalarProperty Name="TENNHOM" ColumnName="TENNHOM" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PHANQUYENs">
+            <EntityTypeMapping TypeName="QuanLyKiTucXaModel.PHANQUYEN">
+              <MappingFragment StoreEntitySet="PHANQUYEN">
+                <ScalarProperty Name="MANHOM" ColumnName="MANHOM" />
+                <ScalarProperty Name="MAMANHINH" ColumnName="MAMANHINH" />
+                <ScalarProperty Name="COQUYEN" ColumnName="COQUYEN" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="NGUOIDUNG_NHOMNGUOIDUNG" TypeName="QuanLyKiTucXaModel.NGUOIDUNG_NHOMNGUOIDUNG" StoreEntitySet="NGUOIDUNG_NHOMNGUOIDUNG">
+            <EndProperty Name="NGUOIDUNG">
+              <ScalarProperty Name="TENDANGNHAP" ColumnName="TENDANGNHAP" />
+            </EndProperty>
+            <EndProperty Name="NHOMNGUOIDUNG">
+              <ScalarProperty Name="MANHOM" ColumnName="MANHOM" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
